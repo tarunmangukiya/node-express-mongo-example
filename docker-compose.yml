@@ -1,0 +1,28 @@
+version: '3'
+
+services: 
+  # We can use nginx-proxy for giving custom host names and subdomains
+  app:
+    image: gdgsurat/node-mongo-demo
+    build: ./app
+    environment:
+      - NODE_ENV=production
+    ports: 
+      - 80:3000
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:4.2.6
+    volumes: 
+      - ./data:/data/db
+
+  mongo-express:
+    image: mongo-express:0.54.0
+    ports:
+      - 8081:8081
+
+  imgresizer:
+    image: darthsim/imgproxy
+    ports:
+      - 8888:8080
